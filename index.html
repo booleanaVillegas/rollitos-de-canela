@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form>
+        <label for="taskTitle">Title</label>
+        <input id="taskTitle" type="text">
+        <br>
+        <label for="taskDescription">Description</label>
+        <input id="taskDescription" type="text">
+        <button id="submit-button" type="submit">Send Data</button>
+    </form>
+    <section>
+        <ul id="tasks-container">
+
+        </ul>
+    </section>
+    <script type="module" src="./firebase.js"></script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>
