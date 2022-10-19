@@ -1,12 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
+    <section>
+        <h3>Crear usuario</h3>
+        <form>
+            <label for="email">Email</label>
+            <input id="email" type="text">
+            <br>
+            <label for="password">Password</label>
+            <input id="password" type="password">
+            <label for="passwordConfirm">Confirm Password</label>
+            <input id="passwordConfirm" type="password">
+            <button id="sign-in-button" type="submit">Crear usuario</button>
+        </form>
+        <br>
+        <hr>
+    </section>
+    <section>
+        <br>
+        <h3>Iniciar sesion</h3>
+        <form>
+            <label for="email-log-in">Email</label>
+            <input id="email-log-in" type="text">
+            <br>
+            <label for="password-log-in">Password</label>
+            <input id="password-log-in" type="password">
+            <button id="log-in-button" type="submit">Iniciar Sesion</button>
+        </form>
+        <br>
+        <hr>
+    </section>
+    <br>
+    <button id="log-out-button" type="submit">Cerrar Sesion</button>
+    <hr>
+    <br>
     <form>
         <label for="taskTitle">Title</label>
         <input id="taskTitle" type="text">
@@ -23,4 +58,5 @@
     <script type="module" src="./firebase.js"></script>
     <script type="module" src="main.js"></script>
 </body>
+
 </html>

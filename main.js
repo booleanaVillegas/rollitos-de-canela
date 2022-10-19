@@ -1,27 +1,27 @@
-import { addTask, getAllTasks } from './firebase.js'
-import productsArray from './products.json' assert {type: 'json'};
+import { addTask, getAllTasks, newUser, logIn, logOut } from './firebase.js'
 
 const button = document.getElementById('submit-button')
 button.addEventListener('click', (e) => clickForm(e))
 
 let tasks = await getAllTasks()
-console.log(tasks)
 displayTasks()
-console.log(productsArray)
 
+const buttonSignIn = document.getElementById('sign-in-button')
+buttonSignIn.addEventListener('click', (e) => signUp(e))
+
+const buttonLogIn = document.getElementById('log-in-button')
+buttonLogIn.addEventListener('click', (e) => logInForm(e))
+
+const buttonLogOut = document.getElementById('log-out-button')
+buttonLogOut.addEventListener('click', (e) => logOutForm(e))
 
 function displayTasks() {
-    console.log('holaaaaaaa');
     const taskContainer = document.getElementById('tasks-container');
-    console.log(taskContainer);
-
-    taskContainer.innerHTML= '';
+    taskContainer.innerHTML = '';
 
     tasks.forEach((task => {
-        console.log('soy un task');
         const taskElem = document.createElement('li');
         taskElem.textContent = task.title;
-
         taskContainer.appendChild(taskElem);
     }))
 }
@@ -34,10 +34,38 @@ async function clickForm(e) {
 
     // create tasks
     await addTask(title, description)
-    // update tasks
+        // update tasks
 
     tasks = await getAllTasks()
     displayTasks()
 
 }
 
+function signUp(e) {
+    e.preventDefault()
+    const email = document.getElementById('email')?.value
+    const pass = document.getElementById('password')?.value
+    const passConfirm = document.getElementById('passwordConfirm')?.value
+
+    if (pass === passConfirm) {
+        newUser(email, pass);
+    } else {
+        alert('Las contraseñas no coinciden')
+    }
+
+
+}
+
+function logInForm(e) {
+    e.preventDefault();
+    const email = document.getElementById('email-log-in')?.value
+    const pass = document.getElementById('password-log-in')?.value
+
+    logIn(email, pass)
+
+}
+
+function logOutForm(e) {
+    e.preventDefault();
+    logOut();
+}
