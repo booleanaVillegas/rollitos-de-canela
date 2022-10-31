@@ -21,7 +21,9 @@ function displayTasks() {
 
     tasks.forEach((task => {
         const taskElem = document.createElement('li');
-        taskElem.textContent = task.title;
+        // taskElem.textContent = task.title;
+        taskElem.innerHTML = `<h2>${task.title}</h2>
+        ${task.url?`<img src="${task.url}" alt="">`:''}`
         taskContainer.appendChild(taskElem);
     }))
 }
@@ -31,9 +33,12 @@ async function clickForm(e) {
     console.log('prevent event')
     const title = document.getElementById('taskTitle').value
     const description = document.getElementById('taskDescription').value
+    const file = document.getElementById('taskImg').files[0]
+
+    console.log(file)
 
     // create tasks
-    await addTask(title, description)
+    await addTask(title, description, file.name ,file)
         // update tasks
 
     tasks = await getAllTasks()

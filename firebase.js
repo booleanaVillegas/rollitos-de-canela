@@ -13,12 +13,12 @@ import {
     signOut,
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
+import { getStorage, ref, uploadBytes, getDownloadURL  } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-storage.js";
+
 import { reValidateUser } from './methods.js'
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
+////// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCOj-0IHX80e8IqkreZ7jWZfBmnz8fkUuM",
     authDomain: "f-prog-web.firebaseapp.com",
@@ -28,20 +28,27 @@ const firebaseConfig = {
     appId: "1:625260296003:web:cc66fe69928c51a24c21f6",
 };
 
-// Initialize Firebase
+///// Initialize Firebase & Other services
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
-
 const auth = getAuth(app);
+const storage = getStorage(app);
 
-export async function addTask(title, description) {
+
+/// FIREBASE FUNCTIONS
+
+export async function addTask(title, description, nameImg, file) {
     try {
+        const uploadedFileUrl = await uploadFile(nameImg, file)
+
+        console.log(uploadedFileUrl)
+
         const docRef = await addDoc(collection(db, "tasks"), {
             title,
             description,
+            url: uploadedFileUrl
         });
-        console.log("Document written with ID: ", docRef.id);
+        // console.log("Document written with ID: ", docRef.id);
     } catch (e) {
         alert("Hubo un error: " + e);
         console.error("Error adding document: ", e);
@@ -52,7 +59,7 @@ export async function getAllTasks() {
     const querySnapshot = await getDocs(collection(db, "tasks"));
     const mappedArray = [];
     querySnapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
+        // console.log(doc.id, " => ", doc.data());
         mappedArray.push(doc.data());
     });
 
@@ -109,3 +116,28 @@ onAuthStateChanged(auth, (user) => {
         reValidateUser(false)
     }
 });
+
+export async function uploadFile(name, file) {
+    const taskImgRef = ref(storage, `tasks/${name}`); 
+
+    try {
+        await uploadBytes(taskImgRef, file)
+        const url = await getDownloadURL(taskImgRef)
+        return url
+    }
+    catch(error) {
+        console.log("error creando imagen ->", error);
+    }
+
+
+    /* uploadBytes(taskImgRef, file).then(async (snapshot) => {
+        console.log('Uploaded a blob or file!');
+        // console.log(snapshot)
+
+        const url = await getDownloadURL(taskImgRef)
+        return url
+      }).catch((error) => {
+        console.log("error creando imagen ->", error);
+    });;*/
+      
+}
